@@ -1,0 +1,32 @@
+# Dependencies
+**/node_modules
+
+# Build output
+**/dist
+**/build
+**/.next
+
+# Logs
+*.log
+
+# Environment files
+**/.env
+**/.env.*
+!**/.env.example
+
+# Coverage
+**/coverage
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode
+.zed
+
+# TypeScript
+**/*.tsbuildinfo
+
+# Uploads
+**/uploads/
