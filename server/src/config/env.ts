@@ -15,6 +15,7 @@ const LOG_LEVELS = [
 const parsedEnv = z
   .object({
     DB_URL: z.string(),
+    REDIS_URL: z.string().default("redis://localhost:6379"),
 
     LOG_LEVEL: z.enum(LOG_LEVELS).default("debug"),
 
