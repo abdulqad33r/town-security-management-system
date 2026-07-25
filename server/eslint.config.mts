@@ -56,6 +56,7 @@ export default antfu(
       ],
       "style/object-curly-newline": ["warn"],
       "style/operator-linebreak": "off",
+
       "ts/consistent-type-definitions": "off",
     },
   },
