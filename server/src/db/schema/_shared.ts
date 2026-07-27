@@ -1,5 +1,4 @@
 import type { AnyPgColumn } from "drizzle-orm/pg-core"
-
 import { serial, timestamp, uuid } from "drizzle-orm/pg-core"
 
 import { visitStatusEnum } from "./enums"

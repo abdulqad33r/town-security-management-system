@@ -1,10 +1,7 @@
 import type { ErrorHandler } from "hono"
-import type { ContentfulStatusCode } from "hono/utils/http-status"
-
 import { HTTPException } from "hono/http-exception"
+import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { ZodError } from "zod"
-
-import type { ErrorType } from "@/utils/constants"
 
 import { isDevEnv } from "@/config/env"
 import formatZodError from "@/lib/errors/formatZodError"
@@ -12,6 +9,7 @@ import {
   getCleanStack,
   httpStatusToErrorType,
 } from "@/lib/errors/httpErrors"
+import type { ErrorType } from "@/utils/constants"
 // import { REFRESH_PATH } from "@/utils/constants"
 import { HttpStatus } from "@/utils/constants/httpStatus"
 

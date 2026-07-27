@@ -1,7 +1,6 @@
-import type { SerializerFn } from "pino"
-
 import { structuredLogger } from "@hono/structured-logger"
 import { HTTPException } from "hono/http-exception"
+import type { SerializerFn } from "pino"
 import pino from "pino"
 import PinoPretty from "pino-pretty"
 import { ZodError } from "zod"

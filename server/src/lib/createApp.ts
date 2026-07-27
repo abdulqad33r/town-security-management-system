@@ -11,9 +11,8 @@ import {
 } from "@/middlewares"
 import { HttpStatus } from "@/utils/constants/httpStatus"
 
-import type { AppEnv } from "./types"
-
 import formatZodError from "./errors/formatZodError"
+import type { AppEnv } from "./types"
 
 export const createRouter = () =>
   new OpenAPIHono<AppEnv>({

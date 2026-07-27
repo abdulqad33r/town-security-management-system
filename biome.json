@@ -1,0 +1,108 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":PACKAGE:", ":NODE:"],
+              ":BLANK_LINE:",
+              ["@/**"],
+              ":BLANK_LINE:",
+              [":PATH:"]
+            ]
+          }
+        },
+        "useSortedKeys": "off",
+        "useSortedPackageJson": "on"
+      }
+    },
+    "enabled": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!.zed",
+      "!node_modules",
+      "!dist",
+      "!**/*.md",
+      "!.env",
+      "!.wakatime-project",
+      "!src/db/migrations"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 70
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "asNeeded",
+      "bracketSpacing": true,
+      "quoteStyle": "double",
+      "semicolons": "asNeeded",
+      "trailingCommas": "es5"
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "nursery": {
+        "useExplicitReturnType": "off",
+        "useExplicitType": "off"
+      },
+      "preset": "recommended",
+      "style": {
+        "useConsistentArrayType": "off",
+        "noProcessEnv": "warn",
+        "useImportType": {
+          "level": "on",
+          "options": {
+            "style": "separatedType"
+          }
+        }
+      },
+      "suspicious": {
+        "noEmptyBlock": "warn",
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["server/**/env.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noProcessEnv": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["server/**/index.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ],
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
+}

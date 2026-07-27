@@ -1,0 +1,15 @@
+{
+  "name": "town_security_management_system",
+  "private": true,
+  "scripts": {
+    "check": "bun --bun biome check .",
+    "check:fix": "bun --bun biome check --write .",
+    "typecheck": "bun --bun tsc -p server --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.5"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}

@@ -1,6 +1,5 @@
-import type { AppOpenApi } from "./lib/types"
-
 import { configureOpenAPI, createApp } from "./lib"
+import type { AppOpenApi } from "./lib/types"
 
 const app = createApp()
 
