@@ -38,6 +38,8 @@
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
+    "lineEnding": "lf",
+    "expand": "auto",
     "lineWidth": 70
   },
   "javascript": {
@@ -49,11 +51,7 @@
       "trailingCommas": "es5"
     }
   },
-  "json": {
-    "formatter": {
-      "trailingCommas": "none"
-    }
-  },
+  "json": { "formatter": { "trailingCommas": "none" } },
   "linter": {
     "enabled": true,
     "rules": {
@@ -67,37 +65,20 @@
         "noProcessEnv": "warn",
         "useImportType": {
           "level": "on",
-          "options": {
-            "style": "separatedType"
-          }
+          "options": { "style": "separatedType" }
         }
       },
-      "suspicious": {
-        "noEmptyBlock": "warn",
-        "noExplicitAny": "off"
-      }
+      "suspicious": { "noEmptyBlock": "warn", "noExplicitAny": "off" }
     }
   },
   "overrides": [
     {
       "includes": ["server/**/env.ts"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noProcessEnv": "off"
-          }
-        }
-      }
+      "linter": { "rules": { "style": { "noProcessEnv": "off" } } }
     },
     {
       "includes": ["server/**/index.ts"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noConsole": "off"
-          }
-        }
-      }
+      "linter": { "rules": { "suspicious": { "noConsole": "off" } } }
     }
   ],
   "vcs": {
