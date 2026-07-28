@@ -4,10 +4,12 @@
   "scripts": {
     "check": "bun --bun biome check .",
     "check:fix": "bun --bun biome check --write .",
+    "prepare": "husky",
     "typecheck": "bun --bun tsc -p server --noEmit"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.5"
+    "@biomejs/biome": "^2.5.5",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "typescript": "^7"
