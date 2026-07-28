@@ -2,14 +2,18 @@
   "name": "town_security_management_system",
   "private": true,
   "scripts": {
-    "check": "bun --bun biome check .",
-    "check:fix": "bun --bun biome check --write .",
+    "check": "bun --bun biome check",
+    "check:fix": "bun --bun biome check --write",
     "prepare": "husky",
     "typecheck": "bun --bun tsc -p server --noEmit"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json}": ["bun check"]
+  },
   "devDependencies": {
     "@biomejs/biome": "^2.5.5",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.2.0"
   },
   "peerDependencies": {
     "typescript": "^7"
