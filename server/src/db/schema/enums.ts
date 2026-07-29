@@ -5,6 +5,7 @@ export const accountRoleEnum = pgEnum("account_role", [
   "guard",
   "manager",
 ])
+export type UserRole = (typeof accountRoleEnum.enumValues)[number]
 
 export const approvalStatusEnum = pgEnum("approval_status", [
   "pending",
@@ -13,8 +14,10 @@ export const approvalStatusEnum = pgEnum("approval_status", [
   "suspended",
   "inactive",
 ])
+export type ApprovalStatus = (typeof approvalStatusEnum.enumValues)[number]
 
 export const genderEnum = pgEnum("gender", ["male", "female"])
+export type Gender = (typeof genderEnum.enumValues)[number]
 
 export const arrivalModeEnum = pgEnum("arrival_mode", [
   "foot",
@@ -24,6 +27,7 @@ export const arrivalModeEnum = pgEnum("arrival_mode", [
   "public_transport",
   "other",
 ])
+export type ArrivalMode = (typeof arrivalModeEnum.enumValues)[number]
 
 export const vehicleTypeEnum = pgEnum("vehicle_type", [
   "bike",
@@ -33,6 +37,7 @@ export const vehicleTypeEnum = pgEnum("vehicle_type", [
   "truck",
   "other",
 ])
+export type VehicleType = (typeof vehicleTypeEnum.enumValues)[number]
 
 export const vehicleDocTypeEnum = pgEnum("vehicle_doc_type", [
   "registration_certificate",
@@ -42,6 +47,7 @@ export const vehicleDocTypeEnum = pgEnum("vehicle_doc_type", [
   "road_tax_slip",
   "petrol_slip",
 ])
+export type VehicleDocType = (typeof vehicleDocTypeEnum.enumValues)[number]
 
 export const visitStatusEnum = pgEnum("visit_status", [
   "pending",
@@ -51,28 +57,35 @@ export const visitStatusEnum = pgEnum("visit_status", [
   "cancelled",
   "rejected",
 ])
+export type VisitStatus = (typeof visitStatusEnum.enumValues)[number]
 
 export const approvalDecisionEnum = pgEnum("approval_decision", [
   "pending",
   "approved",
   "rejected",
 ])
+export type ApprovalDecision = (typeof approvalDecisionEnum.enumValues)[number]
 
 export const vehicleOwnerTypeEnum = pgEnum("vehicle_owner_type", [
   "resident",
   "company",
 ])
+export type VehicleOwnerType = (typeof vehicleOwnerTypeEnum.enumValues)[number]
 
-export const salaryRequestStatusEnum = pgEnum(
-  "salary_request_status",
-  ["pending", "approved", "rejected"]
-)
+export const salaryRequestStatusEnum = pgEnum("salary_request_status", [
+  "pending",
+  "approved",
+  "rejected",
+])
+export type SalaryRequestStatus =
+  (typeof salaryRequestStatusEnum.enumValues)[number]
 
 export const parcelStatusEnum = pgEnum("parcel_status", [
   "collected",
   "delivered",
   "returned",
 ])
+export type ParcelStatus = (typeof parcelStatusEnum.enumValues)[number]
 
 export const guardDocTypeEnum = pgEnum("guard_doc_type", [
   "cv",
@@ -82,6 +95,7 @@ export const guardDocTypeEnum = pgEnum("guard_doc_type", [
   "driving_license",
   "sia_badge",
 ])
+export type GuardDocType = (typeof guardDocTypeEnum.enumValues)[number]
 
 export const workStatusEnum = pgEnum("work_status", [
   "scheduled",
@@ -90,3 +104,4 @@ export const workStatusEnum = pgEnum("work_status", [
   "late",
   "cancelled",
 ])
+export type WorkStatus = (typeof workStatusEnum.enumValues)[number]
