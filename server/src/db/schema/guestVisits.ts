@@ -20,11 +20,7 @@ import {
   guardProfilesTable,
   houseMembersTable,
 } from "./accounts"
-import {
-  approvalDecisionEnum,
-  arrivalModeEnum,
-  vehicleTypeEnum,
-} from "./enums"
+import { approvalDecisionEnum, arrivalModeEnum, vehicleTypeEnum } from "./enums"
 import { housesTable } from "./houses"
 import { streetsTable, zonesTable } from "./location"
 
@@ -35,9 +31,7 @@ export const guestVisitsTable = snakeCase.table(
     // Required
     id: uuidPk(),
 
-    recordedByGuardAccountId: uuidRef(
-      () => guardProfilesTable.accountId
-    ),
+    recordedByGuardAccountId: uuidRef(() => guardProfilesTable.accountId),
 
     hostHouseId: uuidRef(() => housesTable.id),
     hostMemberId: uuidRef(() => houseMembersTable.accountId),

@@ -13,12 +13,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 
-import {
-  timestamps,
-  uuidPk,
-  uuidRef,
-  uuidRefNullable,
-} from "./_shared"
+import { timestamps, uuidPk, uuidRef, uuidRefNullable } from "./_shared"
 import { guardProfilesTable, managerProfilesTable } from "./accounts"
 import { salaryRequestStatusEnum } from "./enums"
 import { guardSchedulesTable } from "./guardsSchedules"
@@ -42,9 +37,7 @@ export const guardSalaryRequestsTable = snakeCase.table(
     requestedAt: timestamps.createdAt,
 
     // Nullable
-    approvedByManagerId: uuidRefNullable(
-      () => managerProfilesTable.accountId
-    ),
+    approvedByManagerId: uuidRefNullable(() => managerProfilesTable.accountId),
     approvedAt: timestamp({ withTimezone: true }),
 
     notes: varchar({ length: 255 }),
@@ -66,10 +59,7 @@ export const guardSalaryRequestsTable = snakeCase.table(
       sql`${table.requestedShiftCount} > 0`
     ),
 
-    check(
-      "requested_amount_positive_check",
-      sql`${table.requestedAmount} > 0`
-    ),
+    check("requested_amount_positive_check", sql`${table.requestedAmount} > 0`),
 
     check(
       "approval_check",
@@ -99,9 +89,7 @@ export const guardSalarySlipsTable = snakeCase.table(
   {
     // Required
     id: uuidPk(),
-    generatedByManagerId: uuidRef(
-      () => managerProfilesTable.accountId
-    ),
+    generatedByManagerId: uuidRef(() => managerProfilesTable.accountId),
     guardId: uuidRef(() => guardProfilesTable.accountId),
 
     periodStartDate: date().notNull(),
@@ -135,15 +123,9 @@ export const guardSalarySlipsTable = snakeCase.table(
       sql`${table.periodEndDate} >= ${table.periodStartDate}`
     ),
 
-    check(
-      "total_shifts_positive_check",
-      sql`${table.totalShifts} > 0`
-    ),
+    check("total_shifts_positive_check", sql`${table.totalShifts} > 0`),
 
-    check(
-      "total_amount_positive_check",
-      sql`${table.totalAmount} > 0`
-    ),
+    check("total_amount_positive_check", sql`${table.totalAmount} > 0`),
   ]
 )
 
@@ -169,9 +151,7 @@ export const guardSalarySlipItemsTable = snakeCase.table(
 
   table => [
     // ? ───────────────── Indexes ─────────────────
-    index("guard_salary_slip_items_salary_slip_id_idx").on(
-      table.salarySlipId
-    ),
+    index("guard_salary_slip_items_salary_slip_id_idx").on(table.salarySlipId),
     index("guard_salary_slip_items_guard_schedule_id_idx").on(
       table.guardScheduleId
     ),

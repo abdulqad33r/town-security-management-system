@@ -2,13 +2,10 @@ import { z } from "@hono/zod-openapi"
 
 import { ERROR_TYPES } from "@/utils/constants"
 
-const createZodErrorResponseSchema = <T extends z.ZodType>(
-  schema: T
-) => {
+const createZodErrorResponseSchema = <T extends z.ZodType>(schema: T) => {
   const invalidInput = (() => {
     if (schema.def.type === "array") {
-      const element = (schema as unknown as z.ZodArray<z.ZodType>)
-        .element
+      const element = (schema as unknown as z.ZodArray<z.ZodType>).element
       return [element.def.type === "string" ? 123 : "invalid"]
     } else if (schema.def.type === "object") {
       const shape = (schema as unknown as z.ZodObject).shape

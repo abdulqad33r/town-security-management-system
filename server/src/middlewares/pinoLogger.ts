@@ -15,12 +15,10 @@ const pretty = PinoPretty({
 })
 
 const serializeError: SerializerFn = (error: unknown) => {
-  const type =
-    error !== null ? (error as any).constructor.name : undefined
+  const type = error !== null ? (error as any).constructor.name : undefined
   const stack = getCleanStack(error)
 
-  if (error instanceof ZodError)
-    return { ...formatZodError(error), stack }
+  if (error instanceof ZodError) return { ...formatZodError(error), stack }
   else if (error instanceof HTTPException)
     return { type, message: error.message, stack }
   else if (Error.isError(error))
@@ -41,8 +39,7 @@ const rootLogger = pino(
 
 const pinoLogger = () =>
   structuredLogger({
-    createLogger: c =>
-      rootLogger.child({ requestId: c.var.requestId }),
+    createLogger: c => rootLogger.child({ requestId: c.var.requestId }),
   })
 
 export default pinoLogger

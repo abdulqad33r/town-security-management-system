@@ -69,9 +69,7 @@ export const guardAttendancesTable = snakeCase.table(
   "guard_attendances",
   {
     // Required
-    guardScheduleId: uuidRef(
-      () => guardSchedulesTable.id
-    ).primaryKey(),
+    guardScheduleId: uuidRef(() => guardSchedulesTable.id).primaryKey(),
 
     checkInAt: time().notNull(),
 
@@ -94,10 +92,7 @@ export const guardAttendancesTable = snakeCase.table(
       sql`${table.checkInAt} < ${table.checkOutAt}`
     ),
 
-    check(
-      "break_time_check",
-      sql`${table.breakStartAt} < ${table.breakEndAt}`
-    ),
+    check("break_time_check", sql`${table.breakStartAt} < ${table.breakEndAt}`),
   ]
 )
 

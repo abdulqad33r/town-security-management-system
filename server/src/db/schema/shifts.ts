@@ -31,10 +31,7 @@ export const shiftsTable = snakeCase.table(
     // ? ───────────────── Checks ─────────────────
     check("shift_no_positive_check", sql`${table.shiftNo} > 0`),
 
-    check(
-      "shift_time_check",
-      sql`${table.endTime} > ${table.startTime}`
-    ),
+    check("shift_time_check", sql`${table.endTime} > ${table.startTime}`),
   ]
 )
 

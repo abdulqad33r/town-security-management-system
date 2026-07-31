@@ -9,11 +9,7 @@ import {
 } from "drizzle-orm/pg-core"
 
 import { timestamps, uuidPk, uuidRef } from "./_shared"
-import {
-  accountRoleEnum,
-  approvalStatusEnum,
-  genderEnum,
-} from "./enums"
+import { accountRoleEnum, approvalStatusEnum, genderEnum } from "./enums"
 import { housesTable } from "./houses"
 
 // ? ───────────────── Accounts Table ─────────────────
@@ -40,15 +36,12 @@ export const accountsTable = snakeCase.table("accounts", {
 // here will be schemas for the accounts table
 
 // ? ───────────────── Manager Profiles Table ─────────────────
-export const managerProfilesTable = snakeCase.table(
-  "manager_profiles",
-  {
-    // Required
-    accountId: uuidRef(() => accountsTable.id).primaryKey(),
+export const managerProfilesTable = snakeCase.table("manager_profiles", {
+  // Required
+  accountId: uuidRef(() => accountsTable.id).primaryKey(),
 
-    ...timestamps,
-  }
-)
+  ...timestamps,
+})
 
 // ? ───────────────── Manager Profiles Schemas ─────────────────
 // here will be schemas for the manager profiles table
@@ -105,10 +98,7 @@ export const houseMembersTable = snakeCase.table(
     index("house_members_house_id_idx").on(table.houseId),
 
     // ? ───────────────── Checks ─────────────────
-    check(
-      "date_of_birth_check",
-      sql`${table.dateOfBirth} < CURRENT_DATE`
-    ),
+    check("date_of_birth_check", sql`${table.dateOfBirth} < CURRENT_DATE`),
 
     // check(
     //   "date_of_birth_reasonable_check",

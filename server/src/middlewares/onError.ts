@@ -5,10 +5,7 @@ import { ZodError } from "zod"
 
 import { isDevEnv } from "@/config/env"
 import formatZodError from "@/lib/errors/formatZodError"
-import {
-  getCleanStack,
-  httpStatusToErrorType,
-} from "@/lib/errors/httpErrors"
+import { getCleanStack, httpStatusToErrorType } from "@/lib/errors/httpErrors"
 import type { ErrorType } from "@/utils/constants"
 // import { REFRESH_PATH } from "@/utils/constants"
 import { HttpStatus } from "@/utils/constants/httpStatus"
@@ -25,8 +22,7 @@ interface ErrorResponse {
 }
 
 const onError: ErrorHandler = (error, c) => {
-  let statusCode: ContentfulStatusCode =
-    HttpStatus.INTERNAL_SERVER_ERROR
+  let statusCode: ContentfulStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
   const response: ErrorResponse = {
     success: false,
     type: "INTERNAL_ERROR",
@@ -59,9 +55,7 @@ const onError: ErrorHandler = (error, c) => {
   // Generic fallback
   else if (Error.isError(error)) {
     response.message =
-      isDevEnv && error.message
-        ? error.message
-        : "An unexpected error occurred"
+      isDevEnv && error.message ? error.message : "An unexpected error occurred"
   }
 
   // Stack trace in dev only

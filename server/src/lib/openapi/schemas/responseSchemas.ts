@@ -9,9 +9,7 @@ import jsonContent from "../helpers/jsonContent"
 
 const commonErrorResponseSchema = z.object({
   success: z.literal(false),
-  type: z
-    .enum(ERROR_TYPES)
-    .openapi({ example: ERROR_TYPES.VALIDATION_ERROR }),
+  type: z.enum(ERROR_TYPES).openapi({ example: ERROR_TYPES.VALIDATION_ERROR }),
   message: z.string().openapi({ example: "Not Found" }),
   stack: z.string().optional().openapi({
     example:

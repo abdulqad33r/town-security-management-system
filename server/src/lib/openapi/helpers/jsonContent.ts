@@ -1,15 +1,8 @@
 import type { ZodType } from "zod"
 
-const jsonContent = <T extends ZodType>(
-  schema: T,
-  description: string
-) => {
+const jsonContent = <T extends ZodType>(schema: T, description: string) => {
   return {
-    content: {
-      "application/json": {
-        schema,
-      },
-    },
+    content: { "application/json": { schema } },
     description,
   }
 }

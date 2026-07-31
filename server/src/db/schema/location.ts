@@ -62,10 +62,7 @@ export const streetsTable = snakeCase.table(
 
   table => [
     // ? ───────────────── Indexes ─────────────────
-    uniqueIndex("street_name_per_zone_idx").on(
-      table.zoneId,
-      table.name
-    ),
+    uniqueIndex("street_name_per_zone_idx").on(table.zoneId, table.name),
 
     // ? ───────────────── Checks ─────────────────
     check("street_number_positive", sql`${table.streetNumber} > 0`),

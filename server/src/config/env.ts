@@ -19,11 +19,7 @@ const parsedEnv = z
 
     JWT_ACCESS_SECRET: z.string().min(32),
     JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
-    REFRESH_TOKEN_EXPIRES_DAYS: z.coerce
-      .number()
-      .int()
-      .positive()
-      .default(30),
+    REFRESH_TOKEN_EXPIRES_DAYS: z.coerce.number().int().positive().default(30),
 
     LOG_LEVEL: z.enum(LOG_LEVELS).default("debug"),
 
