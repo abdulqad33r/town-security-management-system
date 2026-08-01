@@ -4,11 +4,11 @@ import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { ZodError } from "zod"
 
 import { isDevEnv } from "@/config/env"
+import type { ErrorType } from "@/constants/errorTypes"
+// import { REFRESH_PATH } from "@/utils/constants"
+import { HttpStatus } from "@/constants/httpStatus"
 import formatZodError from "@/lib/errors/formatZodError"
 import { getCleanStack, httpStatusToErrorType } from "@/lib/errors/httpErrors"
-import type { ErrorType } from "@/utils/constants"
-// import { REFRESH_PATH } from "@/utils/constants"
-import { HttpStatus } from "@/utils/constants/httpStatus"
 
 interface ErrorResponse {
   success: false

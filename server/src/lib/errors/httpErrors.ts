@@ -2,8 +2,8 @@ import { HTTPException } from "hono/http-exception"
 import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { ZodError } from "zod"
 
-import type { ErrorType } from "@/utils/constants"
-import { HttpStatus } from "@/utils/constants/httpStatus"
+import type { ErrorType } from "@/constants/errorTypes"
+import { HttpStatus } from "@/constants/httpStatus"
 
 function cleanStack(stack: string) {
   return stack

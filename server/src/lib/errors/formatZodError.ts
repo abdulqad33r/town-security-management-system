@@ -1,6 +1,6 @@
 import type { ZodError } from "zod"
 
-import { ERROR_TYPES } from "../../utils/constants"
+import { ERROR_TYPES } from "@/constants/errorTypes"
 
 const formatZodError = (error: ZodError) => ({
   type: ERROR_TYPES.VALIDATION_ERROR,

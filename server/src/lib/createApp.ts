@@ -3,8 +3,8 @@ import { compress } from "hono/compress"
 import { cors } from "hono/cors"
 import { requestId } from "hono/request-id"
 
+import { HttpStatus } from "@/constants/httpStatus"
 import { notFound, onError, pinoLogger, serveFavicon } from "@/middlewares"
-import { HttpStatus } from "@/utils/constants/httpStatus"
 
 import formatZodError from "./errors/formatZodError"
 import type { AppEnv } from "./types"

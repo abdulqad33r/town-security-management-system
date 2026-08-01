@@ -1,8 +1,8 @@
 import { z } from "@hono/zod-openapi"
 import type { ZodType } from "zod"
 
-import { ERROR_TYPES } from "@/utils/constants"
-import { HttpStatus } from "@/utils/constants/httpStatus"
+import { ERROR_TYPES } from "@/constants/errorTypes"
+import { HttpStatus } from "@/constants/httpStatus"
 
 import createZodErrorResponseSchema from "../factories/createZodErrorResponseSchema"
 import jsonContent from "../helpers/jsonContent"

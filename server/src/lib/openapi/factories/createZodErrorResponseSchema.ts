@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi"
 
-import { ERROR_TYPES } from "@/utils/constants"
+import { ERROR_TYPES } from "@/constants/errorTypes"
 
 const createZodErrorResponseSchema = <T extends z.ZodType>(schema: T) => {
   const invalidInput = (() => {
