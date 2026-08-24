@@ -11,9 +11,9 @@
     "*.{ts,tsx,js,jsx,json}": ["bun check"]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.5",
+    "@biomejs/biome": "^2.5.10",
     "husky": "^9.1.7",
-    "lint-staged": "^17.2.0"
+    "lint-staged": "^17.3.0"
   },
   "peerDependencies": {
     "typescript": "^7"
