@@ -3,6 +3,7 @@ const _ERROR_TYPES = [
   "NOT_FOUND",
   "UNAUTHORIZED",
   "FORBIDDEN",
+  "CONFLICT",
   "INTERNAL_ERROR",
 ] as const
 
