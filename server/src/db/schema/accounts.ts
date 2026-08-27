@@ -7,6 +7,10 @@ import {
   snakeCase,
   varchar,
 } from "drizzle-orm/pg-core"
+import { createInsertSchema } from "drizzle-orm/zod"
+import z from "zod"
+
+import { compact } from "@/utils/zod"
 
 import { timestamps, uuidPk, uuidRef } from "./_shared"
 import { accountRoleEnum, approvalStatusEnum, genderEnum } from "./enums"
@@ -33,7 +37,20 @@ export const accountsTable = snakeCase.table("accounts", {
 })
 
 // ? ───────────────── Accounts Schemas ─────────────────
-// here will be schemas for the accounts table
+export const createAccountSchema = compact(
+  createInsertSchema(accountsTable, {
+    role: schema => schema.exclude(["manager"]),
+    firstName: schema => schema.min(2).max(50),
+    lastName: schema => schema.min(2).max(50),
+    email: () => z.email(),
+    phone: schema => schema.min(7).max(20),
+  }).omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+    approvalStatus: true,
+  })
+)
 
 // ? ───────────────── Manager Profiles Table ─────────────────
 export const managerProfilesTable = snakeCase.table("manager_profiles", {
