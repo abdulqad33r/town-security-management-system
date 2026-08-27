@@ -15,6 +15,7 @@ export const approvalStatusEnum = pgEnum("approval_status", [
   "inactive",
 ])
 export type ApprovalStatus = (typeof approvalStatusEnum.enumValues)[number]
+export type FinalApprovalStatus = Exclude<ApprovalStatus, "pending">
 
 export const genderEnum = pgEnum("gender", ["male", "female"])
 export type Gender = (typeof genderEnum.enumValues)[number]
