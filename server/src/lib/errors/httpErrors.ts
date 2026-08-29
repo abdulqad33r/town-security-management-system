@@ -70,6 +70,8 @@ export const httpStatusToErrorType = (status: number): ErrorType => {
       return "UNAUTHORIZED"
     case HttpStatus.FORBIDDEN:
       return "FORBIDDEN"
+    case HttpStatus.CONFLICT:
+      return "CONFLICT"
     case HttpStatus.UNPROCESSABLE_ENTITY:
       return "VALIDATION_ERROR"
     default:
