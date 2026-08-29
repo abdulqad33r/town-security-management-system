@@ -16,6 +16,7 @@ import {
 } from "@/repositories/account.repository"
 import type { Account, DeviceMeta } from "@/types/auth.types"
 import { omitFields } from "@/utils/object"
+import { convertTime } from "@/utils/time"
 import type { LoginInput, RegisterInput } from "@/validators/auth.validators"
 
 import { hashPassword, verifyPassword } from "./password.service"
@@ -25,7 +26,11 @@ import {
   signAccessToken,
 } from "./token.service"
 
-const REFRESH_TTL_SECONDS = env.REFRESH_TOKEN_EXPIRES_DAYS * 86400
+const REFRESH_TTL_SECONDS = convertTime(
+  env.REFRESH_TOKEN_EXPIRES_DAYS,
+  "days",
+  "seconds"
+)
 
 // ? ───────────────── Register ─────────────────
 export async function register(input: RegisterInput) {
