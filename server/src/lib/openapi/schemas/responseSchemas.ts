@@ -1,32 +1,40 @@
-import { z } from "@hono/zod-openapi"
 import type { ZodType } from "zod"
 
-import { ERROR_TYPES } from "@/constants/errorTypes"
+import { HttpErrorStatusByCode } from "@/constants/errorTypes"
+import type { HttpErrorStatusCode } from "@/constants/httpStatus"
 import { HttpStatus } from "@/constants/httpStatus"
 
+import createErrorResponseSchema from "../factories/createErrorResponseSchema"
 import createZodErrorResponseSchema from "../factories/createZodErrorResponseSchema"
 import jsonContent from "../helpers/jsonContent"
 
-const commonErrorResponseSchema = z.object({
-  success: z.literal(false),
-  type: z.enum(ERROR_TYPES).openapi({ example: ERROR_TYPES.VALIDATION_ERROR }),
-  message: z.string().openapi({ example: "Not Found" }),
-  stack: z.string().optional().openapi({
-    example:
-      "Error at createUserHandler (...\\src\\routes\\users\\users.handlers.ts:50:3)",
-  }),
-})
+// const commonErrorResponseSchema = z.object({
+//   success: z.literal(false),
+//   type: z.enum(ERROR_TYPES).openapi({ example: ERROR_TYPES.VALIDATION_ERROR }),
+//   message: z.string().openapi({ example: "Not Found" }),
+//   stack: z.string().optional().openapi({
+//     example:
+//       "Error at createUserHandler (...\\src\\routes\\users\\users.handlers.ts:50:3)",
+//   }),
+// })
 
-export const notFoundErrorResponse = (description: string) => ({
-  [HttpStatus.NOT_FOUND]: jsonContent(
-    commonErrorResponseSchema.extend({
-      type: z
-        .literal(ERROR_TYPES.NOT_FOUND)
-        .openapi({ example: ERROR_TYPES.NOT_FOUND }),
-    }),
+export const errorResponse = <S extends HttpErrorStatusCode>(
+  status: S,
+  exampleMessage: string,
+  description = exampleMessage
+) => {
+  const response = jsonContent(
+    createErrorResponseSchema(HttpErrorStatusByCode[status], exampleMessage),
     description
-  ),
-})
+  )
+
+  return {
+    [status]: response,
+  } as { [K in S]: typeof response }
+}
+
+export const notFoundErrorResponse = (description: string) =>
+  errorResponse(HttpStatus.NOT_FOUND, "Not Found", description)
 
 export const validationErrorResponse = <T extends ZodType>(
   schemas: readonly T[],
