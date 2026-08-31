@@ -1,17 +1,20 @@
+import z, { string as s } from "zod"
+
 import redis from "./client"
 
-export type Session = {
-  sessionId: string
-  userId: string
-  hashedRefreshToken: string
-  ip: string
-  userAgent: string
-  device?: string
-  createdAt: string
-  updatedAt: string
-  lastUsedAt: string
-  expiresAt: string
-}
+export const sessionSchema = z.object({
+  sessionId: s(),
+  userId: s(),
+  hashedRefreshToken: s(),
+  ip: s(),
+  userAgent: s(),
+  device: s().optional(),
+  createdAt: s(),
+  updatedAt: s(),
+  lastUsedAt: s(),
+  expiresAt: s(),
+})
+export type Session = z.infer<typeof sessionSchema>
 
 const sessionKey = (sessionId: string) => `session:${sessionId}`
 const userSessionsKey = (userId: string) => `user_sessions:${userId}`
