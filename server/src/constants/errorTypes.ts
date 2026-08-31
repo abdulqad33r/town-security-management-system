@@ -1,15 +1,28 @@
-const _ERROR_TYPES = [
-  "VALIDATION_ERROR",
-  "NOT_FOUND",
-  "UNAUTHORIZED",
-  "FORBIDDEN",
-  "CONFLICT",
-  "INTERNAL_ERROR",
-] as const
+import type { HttpErrorStatusCode } from "./httpStatus"
+import { HttpStatus } from "./httpStatus"
 
-export const ERROR_TYPES = Object.fromEntries(
-  _ERROR_TYPES.map(type => [type, type])
+export const HttpErrorStatusByCode = Object.fromEntries(
+  Object.entries(HttpStatus)
+    .filter(([_, value]) => value >= 400)
+    .map(([key, value]) => [
+      value,
+      key === "UNPROCESSABLE_ENTITY" ? "VALIDATION_ERROR" : key,
+    ])
 ) as {
-  [K in (typeof _ERROR_TYPES)[number]]: K
+  [K in HttpErrorStatusCode]: K extends typeof HttpStatus.UNPROCESSABLE_ENTITY
+    ? "VALIDATION_ERROR"
+    : {
+        [V in keyof typeof HttpStatus]: (typeof HttpStatus)[V] extends K
+          ? V
+          : never
+      }[keyof typeof HttpStatus]
 }
-export type ErrorType = (typeof _ERROR_TYPES)[number]
+
+export type HttpErrorStatusLabel =
+  (typeof HttpErrorStatusByCode)[keyof typeof HttpErrorStatusByCode]
+
+export const HttpErrorStatusLabels = Object.fromEntries(
+  Object.values(HttpErrorStatusByCode).map(type => [type, type])
+) as {
+  [K in HttpErrorStatusLabel]: K
+}

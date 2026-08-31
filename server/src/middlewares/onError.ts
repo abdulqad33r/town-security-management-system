@@ -4,15 +4,16 @@ import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { ZodError } from "zod"
 
 import { isDevEnv } from "@/config/env"
-import type { ErrorType } from "@/constants/errorTypes"
-// import { REFRESH_PATH } from "@/utils/constants"
+import type { HttpErrorStatusLabel } from "@/constants/errorTypes"
+import { HttpErrorStatusByCode } from "@/constants/errorTypes"
+import type { HttpErrorStatusCode } from "@/constants/httpStatus"
 import { HttpStatus } from "@/constants/httpStatus"
 import formatZodError from "@/lib/errors/formatZodError"
-import { getCleanStack, httpStatusToErrorType } from "@/lib/errors/httpErrors"
+import { getCleanStack } from "@/lib/errors/httpErrors"
 
 interface ErrorResponse {
   success: false
-  type: ErrorType
+  type: HttpErrorStatusLabel
   message: string
   errors?: Array<{
     message: string
@@ -25,14 +26,14 @@ const onError: ErrorHandler = (error, c) => {
   let statusCode: ContentfulStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
   const response: ErrorResponse = {
     success: false,
-    type: "INTERNAL_ERROR",
+    type: "INTERNAL_SERVER_ERROR",
     message: "Internal Server Error",
   }
 
   // Hono's built-in HTTP exception
   if (error instanceof HTTPException) {
-    statusCode = error.status as ContentfulStatusCode
-    response.type = httpStatusToErrorType(statusCode)
+    statusCode = error.status
+    response.type = HttpErrorStatusByCode[statusCode as HttpErrorStatusCode]
     response.message = error.message
   }
 

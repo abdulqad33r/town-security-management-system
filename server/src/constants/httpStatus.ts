@@ -1,3 +1,5 @@
+import type { ContentfulStatusCode } from "hono/utils/http-status"
+
 export const HttpStatus = {
   // 2xx Success
   OK: 200,
@@ -27,6 +29,10 @@ export const HttpStatus = {
   BAD_GATEWAY: 502,
   SERVICE_UNAVAILABLE: 503,
   GATEWAY_TIMEOUT: 504,
-} as const
+} as const satisfies Record<string, ContentfulStatusCode | 204 | 304>
 
 export type HttpStatusCode = (typeof HttpStatus)[keyof typeof HttpStatus]
+export type HttpErrorStatusCode = Exclude<
+  HttpStatusCode,
+  200 | 201 | 202 | 204 | 301 | 302 | 304
+>

@@ -1,9 +1,7 @@
 import { HTTPException } from "hono/http-exception"
-import type { ContentfulStatusCode } from "hono/utils/http-status"
 import { ZodError } from "zod"
 
-import type { ErrorType } from "@/constants/errorTypes"
-import { HttpStatus } from "@/constants/httpStatus"
+import type { HttpErrorStatusCode } from "@/constants/httpStatus"
 
 function cleanStack(stack: string) {
   return stack
@@ -43,7 +41,7 @@ export function getCleanStack(err: Error | HTTPException | ZodError | unknown) {
 }
 
 export function throwError(
-  status: ContentfulStatusCode,
+  status: HttpErrorStatusCode,
   message: string,
   stackStartFn: typeof appAssert | typeof throwError = throwError
 ): never {
@@ -56,25 +54,8 @@ export function throwError(
 
 export function appAssert(
   condition: unknown,
-  status: ContentfulStatusCode,
+  status: HttpErrorStatusCode,
   message: string
 ): asserts condition {
   if (!condition) throwError(status, message, appAssert)
-}
-
-export const httpStatusToErrorType = (status: number): ErrorType => {
-  switch (status) {
-    case HttpStatus.NOT_FOUND:
-      return "NOT_FOUND"
-    case HttpStatus.UNAUTHORIZED:
-      return "UNAUTHORIZED"
-    case HttpStatus.FORBIDDEN:
-      return "FORBIDDEN"
-    case HttpStatus.CONFLICT:
-      return "CONFLICT"
-    case HttpStatus.UNPROCESSABLE_ENTITY:
-      return "VALIDATION_ERROR"
-    default:
-      return status >= 500 ? "INTERNAL_ERROR" : "INTERNAL_ERROR"
-  }
 }

@@ -1,9 +1,9 @@
 import type { ZodError } from "zod"
 
-import { ERROR_TYPES } from "@/constants/errorTypes"
+import { HttpErrorStatusLabels } from "@/constants/errorTypes"
 
 const formatZodError = (error: ZodError) => ({
-  type: ERROR_TYPES.VALIDATION_ERROR,
+  type: HttpErrorStatusLabels.VALIDATION_ERROR,
   message: "Validation Failed" as const,
   errors: error.issues.map(issue => ({
     message: issue.message,
