@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi"
 
-import { ERROR_TYPES } from "@/constants/errorTypes"
+import { HttpErrorStatusLabels } from "@/constants/errorTypes"
 
 const createZodErrorResponseSchema = <T extends z.ZodType>(schema: T) => {
   const invalidInput = (() => {
@@ -31,9 +31,10 @@ const createZodErrorResponseSchema = <T extends z.ZodType>(schema: T) => {
       ]
 
   return z.object({
+    success: z.literal(false),
     type: z
-      .literal(ERROR_TYPES.VALIDATION_ERROR)
-      .openapi({ example: ERROR_TYPES.VALIDATION_ERROR }),
+      .literal(HttpErrorStatusLabels.VALIDATION_ERROR)
+      .openapi({ example: HttpErrorStatusLabels.VALIDATION_ERROR }),
     message: z.string().openapi({ example: "Validation Failed" }),
     errors: z
       .array(
