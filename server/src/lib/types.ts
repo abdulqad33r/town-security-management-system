@@ -1,4 +1,4 @@
-import type { OpenAPIHono } from "@hono/zod-openapi"
+import type { OpenAPIHono, RouteConfig, RouteHandler } from "@hono/zod-openapi"
 import type { Logger } from "pino"
 
 import type { UserRole } from "@/db/schema/enums"
@@ -13,3 +13,5 @@ export interface AppEnv {
 }
 
 export type AppOpenApi = OpenAPIHono<AppEnv>
+
+export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R, AppEnv>
