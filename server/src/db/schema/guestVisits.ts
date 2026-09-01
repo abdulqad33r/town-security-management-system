@@ -46,7 +46,7 @@ export const guestVisitsTable = snakeCase.table(
 
     arrivedAt: timestamp().notNull(),
 
-    status: visitStatus().default("pending").notNull(),
+    status: visitStatus(),
 
     ...timestamps(),
 
