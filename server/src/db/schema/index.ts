@@ -1,4 +1,5 @@
 export * from "./accounts"
+export * from "./enums"
 export * from "./guardDocuments"
 export * from "./guardsSalary"
 export * from "./guardsSchedules"

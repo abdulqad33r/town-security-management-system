@@ -1,9 +1,115 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "2a0e5429-9da6-421e-997c-0101ae5f4b1a",
+  "id": "d99b8ca5-b0bd-499f-8cde-52fffa498b5a",
   "prevIds": ["00000000-0000-0000-0000-000000000000"],
   "ddl": [
+    {
+      "values": ["resident", "guard", "manager"],
+      "name": "account_role",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["pending", "approved", "rejected"],
+      "name": "approval_decision",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["pending", "approved", "declined", "suspended", "inactive"],
+      "name": "approval_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "foot",
+        "vehicle",
+        "ride_hailing",
+        "taxi",
+        "public_transport",
+        "other"
+      ],
+      "name": "arrival_mode",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["male", "female"],
+      "name": "gender",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "cv",
+        "proof_of_address",
+        "ni",
+        "dbs",
+        "driving_license",
+        "sia_badge"
+      ],
+      "name": "guard_doc_type",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["collected", "delivered", "returned"],
+      "name": "parcel_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["pending", "approved", "rejected"],
+      "name": "salary_request_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "registration_certificate",
+        "insurance_slip",
+        "maintenance_slip",
+        "mot_slip",
+        "road_tax_slip",
+        "petrol_slip"
+      ],
+      "name": "vehicle_doc_type",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["resident", "company"],
+      "name": "vehicle_owner_type",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["bike", "car", "scooter", "van", "truck", "other"],
+      "name": "vehicle_type",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "pending",
+        "approved",
+        "active",
+        "completed",
+        "cancelled",
+        "rejected"
+      ],
+      "name": "visit_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": ["scheduled", "completed", "absent", "late", "cancelled"],
+      "name": "work_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
     {
       "isRlsEnabled": false,
       "name": "accounts",

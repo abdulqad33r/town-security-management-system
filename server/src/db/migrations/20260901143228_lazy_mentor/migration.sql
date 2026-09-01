@@ -1,3 +1,16 @@
+CREATE TYPE "account_role" AS ENUM('resident', 'guard', 'manager');--> statement-breakpoint
+CREATE TYPE "approval_decision" AS ENUM('pending', 'approved', 'rejected');--> statement-breakpoint
+CREATE TYPE "approval_status" AS ENUM('pending', 'approved', 'declined', 'suspended', 'inactive');--> statement-breakpoint
+CREATE TYPE "arrival_mode" AS ENUM('foot', 'vehicle', 'ride_hailing', 'taxi', 'public_transport', 'other');--> statement-breakpoint
+CREATE TYPE "gender" AS ENUM('male', 'female');--> statement-breakpoint
+CREATE TYPE "guard_doc_type" AS ENUM('cv', 'proof_of_address', 'ni', 'dbs', 'driving_license', 'sia_badge');--> statement-breakpoint
+CREATE TYPE "parcel_status" AS ENUM('collected', 'delivered', 'returned');--> statement-breakpoint
+CREATE TYPE "salary_request_status" AS ENUM('pending', 'approved', 'rejected');--> statement-breakpoint
+CREATE TYPE "vehicle_doc_type" AS ENUM('registration_certificate', 'insurance_slip', 'maintenance_slip', 'mot_slip', 'road_tax_slip', 'petrol_slip');--> statement-breakpoint
+CREATE TYPE "vehicle_owner_type" AS ENUM('resident', 'company');--> statement-breakpoint
+CREATE TYPE "vehicle_type" AS ENUM('bike', 'car', 'scooter', 'van', 'truck', 'other');--> statement-breakpoint
+CREATE TYPE "visit_status" AS ENUM('pending', 'approved', 'active', 'completed', 'cancelled', 'rejected');--> statement-breakpoint
+CREATE TYPE "work_status" AS ENUM('scheduled', 'completed', 'absent', 'late', 'cancelled');--> statement-breakpoint
 CREATE TABLE "accounts" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"role" "account_role" NOT NULL,
