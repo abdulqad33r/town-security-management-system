@@ -48,7 +48,7 @@ export const guestVisitsTable = snakeCase.table(
 
     status: visitStatus().default("pending").notNull(),
 
-    ...timestamps,
+    ...timestamps(),
 
     // Nullable
     vehicleType: vehicleTypeEnum(),

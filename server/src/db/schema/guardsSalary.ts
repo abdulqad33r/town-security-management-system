@@ -34,7 +34,7 @@ export const guardSalaryRequestsTable = snakeCase.table(
 
     status: salaryRequestStatusEnum().default("pending").notNull(),
 
-    requestedAt: timestamps.createdAt,
+    requestedAt: timestamps().createdAt,
 
     // Nullable
     approvedByManagerId: uuidRefNullable(() => managerProfilesTable.accountId),
@@ -100,7 +100,7 @@ export const guardSalarySlipsTable = snakeCase.table(
 
     isPaid: boolean().default(false).notNull(),
 
-    ...timestamps,
+    ...timestamps(),
 
     // Nullable
     salaryRequestId: uuidRefNullable(
@@ -146,7 +146,7 @@ export const guardSalarySlipItemsTable = snakeCase.table(
 
     isPaid: boolean().default(false).notNull(),
 
-    createdAt: timestamps.createdAt,
+    createdAt: timestamps().createdAt,
   },
 
   table => [

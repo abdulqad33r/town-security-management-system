@@ -19,7 +19,7 @@ export const guardDocumentsTable = snakeCase.table(
 
     fileUrl: varchar().notNull(),
 
-    uploadedAt: timestamps.createdAt,
+    uploadedAt: timestamps().createdAt,
 
     // Nullable
     expiryDate: date(),

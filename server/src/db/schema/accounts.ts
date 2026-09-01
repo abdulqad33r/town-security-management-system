@@ -33,7 +33,7 @@ export const accountsTable = snakeCase.table("accounts", {
 
   approvalStatus: approvalStatusEnum().default("pending").notNull(),
 
-  ...timestamps,
+  ...timestamps(),
 })
 
 // ? ───────────────── Accounts Schemas ─────────────────
@@ -63,7 +63,7 @@ export const managerProfilesTable = snakeCase.table("manager_profiles", {
   // Required
   accountId: uuidRef(() => accountsTable.id).primaryKey(),
 
-  ...timestamps,
+  ...timestamps(),
 })
 
 // ? ───────────────── Manager Profiles Schemas ─────────────────
@@ -87,7 +87,7 @@ export const guardProfilesTable = snakeCase.table("guard_profiles", {
 
   workExperience: varchar({ length: 255 }).notNull(),
 
-  ...timestamps,
+  ...timestamps(),
 })
 
 // ? ───────────────── Guard Profiles Schemas ─────────────────
@@ -110,7 +110,7 @@ export const houseMembersTable = snakeCase.table(
 
     whatsappNumber: varchar({ length: 20 }).notNull(),
 
-    ...timestamps,
+    ...timestamps(),
 
     // Nullable
     emergencyContact: varchar({ length: 20 }),

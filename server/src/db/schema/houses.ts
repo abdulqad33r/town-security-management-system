@@ -26,7 +26,7 @@ export const housesTable = snakeCase.table(
 
     isActive: boolean().notNull(),
 
-    ...timestamps,
+    ...timestamps(),
   },
 
   table => [

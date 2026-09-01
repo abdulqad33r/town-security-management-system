@@ -33,8 +33,8 @@ export const parcelCollectionsTable = snakeCase.table(
 
     status: parcelStatusEnum().default("collected").notNull(),
 
-    collectedAt: timestamps.createdAt,
-    updatedAt: timestamps.updatedAt,
+    collectedAt: timestamps().createdAt,
+    updatedAt: timestamps().updatedAt,
   },
 
   table => [

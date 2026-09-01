@@ -18,7 +18,7 @@ const _commonFields = {
 
   isActive: boolean().notNull(),
 
-  ...timestamps,
+  ...timestamps(),
 }
 
 // ? ───────────────── Zones Table ─────────────────

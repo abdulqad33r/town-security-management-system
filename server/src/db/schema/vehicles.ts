@@ -41,7 +41,7 @@ export const vehiclesTable = snakeCase.table(
 
     imageUrl: varchar({ length: 255 }).notNull(),
 
-    ...timestamps,
+    ...timestamps(),
 
     // Nullable
     houseId: uuidRefNullable(() => housesTable.id),

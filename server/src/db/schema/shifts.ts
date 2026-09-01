@@ -24,7 +24,7 @@ export const shiftsTable = snakeCase.table(
 
     isCurrent: boolean().notNull(),
 
-    createdAt: timestamps.createdAt,
+    createdAt: timestamps().createdAt,
   },
 
   table => [

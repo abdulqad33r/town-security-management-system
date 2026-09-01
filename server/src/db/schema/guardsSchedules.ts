@@ -46,7 +46,7 @@ export const guardSchedulesTable = snakeCase.table(
 
     assignedById: uuidRef(() => managerProfilesTable.accountId),
 
-    ...timestamps,
+    ...timestamps(),
 
     // Nullable
     notes: varchar({ length: 255 }),
@@ -75,7 +75,7 @@ export const guardAttendancesTable = snakeCase.table(
 
     breakStartAt: time().notNull(),
 
-    ...timestamps,
+    ...timestamps(),
 
     // Nullable
     checkOutAt: time(),
