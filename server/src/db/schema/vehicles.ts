@@ -8,13 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 
-import {
-  defaultTimestamp,
-  timestamps,
-  uuidPk,
-  uuidRef,
-  uuidRefNullable,
-} from "./_shared"
+import { timestamps, uuidPk, uuidRef, uuidRefNullable } from "./_shared"
 import { accountsTable } from "./accounts"
 import {
   vehicleDocTypeEnum,
@@ -91,7 +85,7 @@ export const vehicleDocumentsTable = snakeCase.table(
 
     fileUrl: varchar({ length: 255 }).notNull(),
 
-    uploadedAt: defaultTimestamp,
+    uploadedAt: timestamps().createdAt,
 
     // Nullable
     fuelPrice: numeric(),
