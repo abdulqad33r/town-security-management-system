@@ -3,15 +3,6 @@ import { serial, timestamp, uuid } from "drizzle-orm/pg-core"
 
 import { visitStatusEnum } from "./enums"
 
-// export const defaultTimestamp = timestamp({ withTimezone: true })
-//   .notNull()
-//   .defaultNow()
-
-// export const timestamps = {
-//   createdAt: defaultTimestamp,
-//   updatedAt: defaultTimestamp.$onUpdate(() => new Date()),
-// }
-
 export const timestamps = () => ({
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
 
