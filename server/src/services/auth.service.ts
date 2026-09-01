@@ -26,7 +26,7 @@ import {
   signAccessToken,
 } from "./token.service"
 
-const REFRESH_TTL_SECONDS = convertTime(
+export const REFRESH_TTL_SECONDS = convertTime(
   env.REFRESH_TOKEN_EXPIRES_DAYS,
   "days",
   "seconds"
@@ -89,6 +89,14 @@ async function issueSession(account: Account, { ip, userAgent }: DeviceMeta) {
     },
     REFRESH_TTL_SECONDS
   )
+
+  const accessToken = await signAccessToken({
+    sub: account.id,
+    role: account.role,
+    sessionId,
+  })
+
+  return { accessToken, refreshToken, sessionId }
 }
 
 // ? ───────────────── Refresh ─────────────────
