@@ -31,7 +31,7 @@
       "!**/*.md",
       "!.env",
       "!.wakatime-project",
-      "!src/db/migrations"
+      "!server/src/db/migrations/*.sql"
     ]
   },
   "formatter": {
