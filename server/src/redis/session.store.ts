@@ -1,11 +1,11 @@
-import z, { string as s } from "zod"
+import z, { string as s, uuid } from "zod"
 
 import redis from "./client"
 
 export const sessionSchema = z
   .object({
-    sessionId: s(),
-    userId: s(),
+    sessionId: uuid(),
+    userId: uuid(),
     hashedRefreshToken: s(),
     ip: s(),
     userAgent: s(),
