@@ -1,3 +1,5 @@
+import { getConnInfo } from "hono/bun"
+
 import { HttpStatus } from "@/constants/httpStatus"
 import { appAssert } from "@/lib/errors/httpErrors"
 import { success } from "@/lib/success"
@@ -37,7 +39,7 @@ export const login: AppRouteHandler<LoginRoute> = async c => {
   const { accessToken, refreshToken, sessionId } = await authService.login(
     body,
     {
-      ip: c.req.header("X-Forwarded-For") ?? "unknown",
+      ip: getConnInfo(c).remote.address ?? "unknown",
       userAgent: c.req.header("User-Agent") ?? "unknown",
     }
   )
