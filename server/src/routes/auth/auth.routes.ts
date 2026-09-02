@@ -2,8 +2,12 @@ import { createRoute as route, z } from "@hono/zod-openapi"
 
 import { HttpStatus } from "@/constants/httpStatus"
 import { getMeSchema } from "@/db/schema"
-import { createMessageObjSchema, jsonContent } from "@/lib/openapi"
-import dataResponseSchema from "@/lib/openapi/schemas/dataResponseSchema"
+import {
+  createMessageObjSchema,
+  jsonContentRequired,
+  jsonContentWithData,
+} from "@/lib/openapi"
+import { idParamsSchema } from "@/lib/openapi/schemas"
 import {
   errorResponse,
   notFoundErrorResponse,
@@ -21,18 +25,16 @@ export const register = route({
   method: "post",
   tags,
   request: {
-    body: jsonContent(registerSchema, "Account registration payload"),
+    body: jsonContentRequired(registerSchema, "Account registration payload"),
   },
   responses: {
-    [HttpStatus.CREATED]: jsonContent(
-      dataResponseSchema(
-        createMessageObjSchema("Registration submitted, pending approval")
-      ),
+    [HttpStatus.CREATED]: jsonContentWithData(
+      createMessageObjSchema("Registration submitted, pending approval"),
       "Account created, pending manager approval"
     ),
 
     ...errorResponse(HttpStatus.CONFLICT, "Email already registered"),
-    ...validationErrorResponse([registerSchema], "Validation error"),
+    ...validationErrorResponse([registerSchema]),
   },
 })
 
@@ -41,17 +43,14 @@ export const login = route({
   method: "post",
   tags,
   request: {
-    body: jsonContent(loginSchema, "Login credentials"),
+    body: jsonContentRequired(loginSchema, "Login credentials"),
   },
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(accessTokenSchema),
-      "Login successful"
-    ),
+    [HttpStatus.OK]: jsonContentWithData(accessTokenSchema, "Login successful"),
 
     ...errorResponse(HttpStatus.UNAUTHORIZED, "Invalid email or password"),
     ...errorResponse(HttpStatus.FORBIDDEN, "Account is pending"),
-    ...validationErrorResponse([loginSchema], "Validation error"),
+    ...validationErrorResponse([loginSchema]),
   },
 })
 
@@ -60,10 +59,7 @@ export const refresh = route({
   method: "post",
   tags,
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(accessTokenSchema),
-      "Token refreshed"
-    ),
+    [HttpStatus.OK]: jsonContentWithData(accessTokenSchema, "Token refreshed"),
 
     ...errorResponse(
       HttpStatus.UNAUTHORIZED,
@@ -79,8 +75,8 @@ export const logout = route({
   method: "post",
   tags,
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(createMessageObjSchema("Logged out")),
+    [HttpStatus.OK]: jsonContentWithData(
+      createMessageObjSchema("Logged out"),
       "Session ended"
     ),
   },
@@ -91,8 +87,8 @@ export const logoutAll = route({
   method: "post",
   tags,
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(createMessageObjSchema("All sessions ended")),
+    [HttpStatus.OK]: jsonContentWithData(
+      createMessageObjSchema("All sessions ended"),
       "All sessions ended"
     ),
   },
@@ -103,10 +99,7 @@ export const me = route({
   method: "get",
   tags,
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(getMeSchema),
-      "Current account"
-    ),
+    [HttpStatus.OK]: jsonContentWithData(getMeSchema, "Current account"),
   },
 })
 
@@ -115,20 +108,18 @@ export const listSessions = route({
   method: "get",
   tags,
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(
-        z.object({
-          sessions: z.array(
-            sessionSchema.pick({
-              sessionId: true,
-              ip: true,
-              userAgent: true,
-              createdAt: true,
-              lastUsedAt: true,
-            })
-          ),
-        })
-      ),
+    [HttpStatus.OK]: jsonContentWithData(
+      z.object({
+        sessions: z.array(
+          sessionSchema.pick({
+            sessionId: true,
+            ip: true,
+            userAgent: true,
+            createdAt: true,
+            lastUsedAt: true,
+          })
+        ),
+      }),
       "Active sessions for the current account"
     ),
   },
@@ -138,10 +129,10 @@ export const revokeSession = route({
   path: "/sessions/{id}",
   method: "delete",
   tags,
-  request: { params: z.object({ id: z.string() }) },
+  request: { params: idParamsSchema },
   responses: {
-    [HttpStatus.OK]: jsonContent(
-      dataResponseSchema(createMessageObjSchema("Session revoked")),
+    [HttpStatus.OK]: jsonContentWithData(
+      createMessageObjSchema("Session revoked"),
       "Session revoked"
     ),
 

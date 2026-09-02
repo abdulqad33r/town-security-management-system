@@ -6,17 +6,7 @@ import { HttpStatus } from "@/constants/httpStatus"
 
 import createErrorResponseSchema from "../factories/createErrorResponseSchema"
 import createZodErrorResponseSchema from "../factories/createZodErrorResponseSchema"
-import jsonContent from "../helpers/jsonContent"
-
-// const commonErrorResponseSchema = z.object({
-//   success: z.literal(false),
-//   type: z.enum(ERROR_TYPES).openapi({ example: ERROR_TYPES.VALIDATION_ERROR }),
-//   message: z.string().openapi({ example: "Not Found" }),
-//   stack: z.string().optional().openapi({
-//     example:
-//       "Error at createUserHandler (...\\src\\routes\\users\\users.handlers.ts:50:3)",
-//   }),
-// })
+import { jsonContent } from "../helpers/jsonContent"
 
 export const errorResponse = <S extends HttpErrorStatusCode>(
   status: S,
@@ -36,22 +26,18 @@ export const errorResponse = <S extends HttpErrorStatusCode>(
 export const notFoundErrorResponse = (description: string) =>
   errorResponse(HttpStatus.NOT_FOUND, "Not Found", description)
 
-export const validationErrorResponse = <T extends ZodType>(
-  schemas: readonly T[],
-  description: string
+export const validationErrorResponse = (
+  schemas: readonly [ZodType, ...ZodType[]],
+  description = "Validation error"
 ) => {
-  const [first, ...rest] = schemas.map(schema =>
-    createZodErrorResponseSchema(schema)
-  )
+  const [first, ...rest] = schemas.map(createZodErrorResponseSchema)
+
   const errorSchema = rest.reduce<ZodType>(
     (acc, schema) => acc.or(schema),
     first
-  )
+  ) as typeof first
 
   return {
-    [HttpStatus.UNPROCESSABLE_ENTITY]: jsonContent(
-      errorSchema as T,
-      description
-    ),
+    [HttpStatus.UNPROCESSABLE_ENTITY]: jsonContent(errorSchema, description),
   }
 }
