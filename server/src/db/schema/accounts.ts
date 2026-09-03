@@ -57,6 +57,7 @@ export const getMeSchema = accountsSchema.pick({
   role: true,
   approvalStatus: true,
 })
+export const roleSchema = accountsSchema.pick({ role: true }).shape.role
 
 // ? ───────────────── Manager Profiles Table ─────────────────
 export const managerProfilesTable = snakeCase.table("manager_profiles", {
