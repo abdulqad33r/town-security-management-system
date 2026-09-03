@@ -1,17 +1,19 @@
 import { sign, verify } from "hono/jwt"
 import type { SignatureAlgorithm } from "hono/utils/jwt/jwa"
+import z from "zod"
 
 import env from "@/config/env"
-import type { UserRole } from "@/db/schema/enums"
+import { roleSchema } from "@/db/schema"
 import type { Prettify } from "@/types"
 import { parseExpiry } from "@/utils/parseExpiry"
 
-export type AccessTokenPayload = {
-  sub: string
-  role: UserRole
-  sessionId: string
-  exp: number
-}
+export const accessTokenPayloadSchema = z.object({
+  sub: z.uuid(),
+  role: roleSchema,
+  sessionId: z.uuid(),
+  exp: z.number(),
+})
+export type AccessTokenPayload = z.infer<typeof accessTokenPayloadSchema>
 
 const ALG: SignatureAlgorithm = "HS256"
 
