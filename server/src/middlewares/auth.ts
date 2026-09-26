@@ -16,7 +16,7 @@ const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
     throwError(HttpStatus.UNAUTHORIZED, "Invalid or expired access token")
   )
 
-  const session = getSession(sessionId)
+  const session = await getSession(sessionId)
   if (!session) throwError(HttpStatus.UNAUTHORIZED, "Session no longer active")
 
   c.set("accountId", sub)

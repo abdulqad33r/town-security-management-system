@@ -37,7 +37,7 @@ export const accountsTable = snakeCase.table("accounts", {
 })
 
 // ? ───────────────── Accounts Schemas ─────────────────
-const accountsSchema = compact(createSelectSchema(accountsTable))
+export const accountsSchema = compact(createSelectSchema(accountsTable))
 export const createAccountSchema = compact(
   createInsertSchema(accountsTable, {
     role: schema => schema.exclude(["manager"]),
