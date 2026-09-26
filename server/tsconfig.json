@@ -3,6 +3,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "module": "ESNext",
+    "target": "esnext",
     "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./src/*"]
