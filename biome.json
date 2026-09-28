@@ -7,6 +7,8 @@
           "level": "on",
           "options": {
             "groups": [
+              [":BUN:"],
+              ":BLANK_LINE:",
               [":PACKAGE:", ":NODE:"],
               ":BLANK_LINE:",
               ["@/**"],
