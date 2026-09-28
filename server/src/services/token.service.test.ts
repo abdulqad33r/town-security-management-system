@@ -1,3 +1,5 @@
+import { describe, expect, it } from "bun:test"
+
 import type { AccessTokenPayload } from "./token.service"
 import {
   generateRefreshToken,
@@ -5,7 +7,6 @@ import {
   signAccessToken,
   verifyAccessToken,
 } from "./token.service"
-import { describe, expect, it } from "bun:test"
 
 describe("access tokens", () => {
   const payload: Omit<AccessTokenPayload, "exp"> = {

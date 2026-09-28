@@ -1,4 +1,5 @@
 import { SQL } from "bun"
+
 import { drizzle } from "drizzle-orm/bun-sql/postgres"
 
 import env from "@/config/env"
