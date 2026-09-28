@@ -1,5 +1,9 @@
 import { describe, expect, it } from "bun:test"
 
+import { sign } from "hono/jwt"
+
+import env from "@/config/env"
+
 import type { AccessTokenPayload } from "./token.service"
 import {
   generateRefreshToken,
@@ -34,32 +38,56 @@ describe("access tokens", () => {
     expect(decoded.exp).toBeLessThan(before + 16 * 60)
   })
 
-  it("rejects a token signed with a different secret", async () => {
+  it("rejects a tampered token", async () => {
     // sanity check that verification actually checks the signature, not just decodes the payload
     const token = await signAccessToken(payload)
     const tampered = `${token.slice(0, -4)}abcd`
 
-    expect(verifyAccessToken(tampered)).rejects.toThrow()
+    await expect(verifyAccessToken(tampered)).rejects.toThrow()
+  })
+
+  it("rejects a token signed with a different secret", async () => {
+    const token = await sign(payload, "different-secret", "HS256")
+
+    await expect(verifyAccessToken(token)).rejects.toThrow()
+  })
+
+  it("rejects an expired token", async () => {
+    const expired = await sign(
+      {
+        ...payload,
+        exp: Math.floor(Date.now() / 1000) - 60,
+      },
+      env.JWT_ACCESS_SECRET,
+      "HS256"
+    )
+
+    await expect(verifyAccessToken(expired)).rejects.toThrow()
   })
 })
 
-const tokenA = generateRefreshToken()
-const tokenB = generateRefreshToken()
-
 describe("refresh tokens", () => {
   it("generates unique token on each call", () => {
+    const tokenA = generateRefreshToken()
+    const tokenB = generateRefreshToken()
+
     expect(tokenA).not.toBe(tokenB)
     expect(tokenA.length).toBeGreaterThan(20)
   })
 
   it("hashes deterministically - same token, same hash", () => {
-    const hashA = hashRefreshToken(tokenA)
-    const hashB = hashRefreshToken(tokenA)
+    const token = generateRefreshToken()
+
+    const hashA = hashRefreshToken(token)
+    const hashB = hashRefreshToken(token)
 
     expect(hashA).toBe(hashB)
   })
 
   it("produces different hashes for different tokens", () => {
+    const tokenA = generateRefreshToken()
+    const tokenB = generateRefreshToken()
+
     const hashA = hashRefreshToken(tokenA)
     const hashB = hashRefreshToken(tokenB)
 
