@@ -1,5 +1,6 @@
-import { parseExpiry } from "./parseExpiry"
 import { describe, expect, it } from "bun:test"
+
+import { parseExpiry } from "./parseExpiry"
 
 describe("parseExpiry", () => {
   it("parses seconds", () => {
