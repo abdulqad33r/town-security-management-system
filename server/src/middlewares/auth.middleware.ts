@@ -17,7 +17,8 @@ const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
   )
 
   const session = await getSession(sessionId)
-  if (!session) throwError(HttpStatus.UNAUTHORIZED, "Session no longer active")
+  if (!session || session.userId !== sub)
+    throwError(HttpStatus.UNAUTHORIZED, "Session no longer active")
 
   c.set("accountId", sub)
   c.set("role", role)
