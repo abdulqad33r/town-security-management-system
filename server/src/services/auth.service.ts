@@ -128,7 +128,7 @@ export async function refresh(sessionId: string, refreshToken: string) {
   const newRefreshToken = generateRefreshToken()
   const newHashed = hashRefreshToken(newRefreshToken)
 
-  updateSession(
+  await updateSession(
     sessionId,
     {
       hashedRefreshToken: newHashed,
