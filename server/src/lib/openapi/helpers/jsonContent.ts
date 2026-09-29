@@ -23,5 +23,5 @@ export const jsonContentRequired = <T extends ZodType>(
   description: string
 ) => ({
   ...jsonContent(schema, description),
-  required: true,
+  required: true as const,
 })
