@@ -12,9 +12,15 @@ const requireAuth: MiddlewareHandler<AppEnv> = async (c, next) => {
 
   if (!token) throwError(HttpStatus.UNAUTHORIZED, "Missing access token")
 
-  const { sub, sessionId, role } = await verifyAccessToken(token).catch(() =>
+  let payload: Awaited<ReturnType<typeof verifyAccessToken>>
+
+  try {
+    payload = await verifyAccessToken(token)
+  } catch {
     throwError(HttpStatus.UNAUTHORIZED, "Invalid or expired access token")
-  )
+  }
+
+  const { sub, sessionId, role } = payload
 
   const session = await getSession(sessionId)
   if (!session || session.userId !== sub)
