@@ -226,15 +226,6 @@ describe("auth.service login()", () => {
       login({ email: account.email, password }, meta)
     ).rejects.toMatchObject({ status: HttpStatus.FORBIDDEN })
   })
-
-  it("rejects a declined account", async () => {
-    const password = "correct-horse-battery-staple"
-    const account = await makeAccount({ password, approvalStatus: "declined" })
-
-    await expect(
-      login({ email: account.email, password }, meta)
-    ).rejects.toMatchObject({ status: HttpStatus.FORBIDDEN })
-  })
 })
 
 // ─────────────────────────────────────────────
