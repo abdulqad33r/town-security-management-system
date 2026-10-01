@@ -2,10 +2,10 @@ import { eq } from "drizzle-orm"
 
 import db from "@/db"
 import { accountsTable } from "@/db/schema"
-import type { FinalApprovalStatus } from "@/db/schema/enums"
 import type {
   CreateAccountInput,
   CreatedAccount,
+  NonPendingApprovalStatus,
   UpdatedAccount,
 } from "@/types/auth.types"
 
@@ -24,7 +24,7 @@ export const createAccount = (data: CreateAccountInput) =>
 
 export const updateApprovalStatus = (
   id: string,
-  approvalStatus: FinalApprovalStatus
+  approvalStatus: NonPendingApprovalStatus
 ): Promise<UpdatedAccount | undefined> =>
   db
     .update(accountsTable)
