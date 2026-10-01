@@ -59,6 +59,13 @@ export const getMeSchema = accountsSchema.pick({
 })
 export const roleSchema = accountsSchema.pick({ role: true }).shape.role
 
+export const nonPendingApprovalStatusSchema =
+  accountsSchema.shape.approvalStatus.exclude(["pending"])
+
+export const updateApprovalStatusSchema = z.object({
+  approvalStatus: nonPendingApprovalStatusSchema,
+})
+
 // ? ───────────────── Manager Profiles Table ─────────────────
 export const managerProfilesTable = snakeCase.table("manager_profiles", {
   // Required
