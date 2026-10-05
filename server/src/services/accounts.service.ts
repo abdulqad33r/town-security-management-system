@@ -7,7 +7,7 @@ import {
   updateApprovalStatus,
 } from "@/repositories/account.repository"
 import type { NonPendingApprovalStatus } from "@/types/auth.types"
-import { pickFields } from "@/utils/object"
+import { omitFields, pickFields } from "@/utils/object"
 
 // ? ───────────────── Update Account Status ─────────────────
 const allowedStatusTransitions: Record<
@@ -42,4 +42,12 @@ export async function updateAccountStatus(
   if (approvalStatus !== "approved") await deleteAllSessions(updated.id)
 
   return pickFields(updated, ["id", "role", "approvalStatus"])
+}
+
+// ? ───────────────── Get an Account ─────────────────
+export async function getAccount(id: string) {
+  const account = await findAccountById(id)
+  appAssert(account, HttpStatus.NOT_FOUND, "Account not found")
+
+  return omitFields(account, ["passwordHash"])
 }

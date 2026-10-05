@@ -1,11 +1,7 @@
 import { createRoute as route } from "@hono/zod-openapi"
 
 import { HttpStatus } from "@/constants/httpStatus"
-import {
-  getMeSchema,
-  nonPendingApprovalStatusSchema,
-  updateApprovalStatusSchema,
-} from "@/db/schema"
+import { getMeSchema } from "@/db/schema"
 import { jsonContentRequired, jsonContentWithData } from "@/lib/openapi"
 import { idParamsSchema } from "@/lib/openapi/schemas"
 import {
@@ -13,6 +9,11 @@ import {
   notFoundErrorResponse,
   validationErrorResponse,
 } from "@/lib/openapi/schemas/responseSchemas"
+import {
+  getAccountSchema,
+  nonPendingApprovalStatusSchema,
+  updateApprovalStatusSchema,
+} from "@/validators/accounts.validators"
 
 const tags = ["accounts"] as const satisfies string[]
 
@@ -39,4 +40,18 @@ export const updateAccountStatus = route({
   },
 })
 
+export const getAccount = route({
+  path: "/{id}",
+  method: "get",
+  tags,
+  request: { params: idParamsSchema },
+  responses: {
+    [HttpStatus.OK]: jsonContentWithData(getAccountSchema, "Account found"),
+
+    // ...errorResponse(HttpStatus.BAD_REQUEST, "Invalid status transition"),
+    ...notFoundErrorResponse("Account not found"),
+  },
+})
+
 export type UpdateAccountStatusRoute = typeof updateAccountStatus
+export type GetAccountRoute = typeof getAccount

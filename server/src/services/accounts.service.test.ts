@@ -14,7 +14,7 @@ const deleteAllSessions = mock(async () => {})
 
 mock.module("@/redis/session.store", () => ({ deleteAllSessions }))
 
-type Account = z.infer<typeof getMeSchema>
+type Account = Prettify<z.infer<typeof getMeSchema> & { passwordHash: string }>
 type UpdatedAccount = Prettify<
   Omit<Account, "approvalStatus"> & {
     approvalStatus: NonPendingApprovalStatus
@@ -51,7 +51,7 @@ function resetFakes() {
   deleteAllSessions.mockClear()
 }
 
-const { updateAccountStatus } = await import("./accounts.service")
+const { getAccount, updateAccountStatus } = await import("./accounts.service")
 
 /** Registers an account under both lookup maps and returns it. */
 function makeAccount(overrides: Partial<Account> = {}) {
@@ -59,6 +59,7 @@ function makeAccount(overrides: Partial<Account> = {}) {
     id: crypto.randomUUID(),
     role: "resident",
     approvalStatus: "approved",
+    passwordHash: "hashed-password",
     ...overrides,
   }
 
@@ -119,7 +120,7 @@ describe("accounts.service updateAccountStatus()", () => {
       id,
       role,
       approvalStatus: "approved",
-    } satisfies UpdatedAccount)
+    } satisfies Omit<UpdatedAccount, "passwordHash">)
 
     expect(accountsById.get(id)?.approvalStatus).toBe("approved")
     expect(deleteAllSessions).not.toHaveBeenCalled()
@@ -155,6 +156,32 @@ describe("accounts.service updateAccountStatus()", () => {
     await expect(updateAccountStatus(id, "suspended")).rejects.toMatchObject({
       status: HttpStatus.BAD_REQUEST,
       message: "Invalid status transition",
+    })
+  })
+})
+
+// ─────────────────────────────────────────────
+// getAccount()
+// ─────────────────────────────────────────────
+describe("accounts.service getAccount()", () => {
+  beforeEach(resetFakes)
+
+  it("returns the account without the password hash", async () => {
+    const account = makeAccount({ role: "guard" })
+
+    const result = await getAccount(account.id)
+
+    expect(result).toMatchObject({
+      id: account.id,
+      role: "guard",
+      approvalStatus: "approved",
+    })
+    expect(result).not.toHaveProperty("passwordHash")
+  })
+
+  it("rejects when the account is not found", async () => {
+    await expect(getAccount(crypto.randomUUID())).rejects.toMatchObject({
+      status: HttpStatus.NOT_FOUND,
     })
   })
 })
