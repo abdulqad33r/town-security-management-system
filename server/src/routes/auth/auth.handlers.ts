@@ -36,12 +36,21 @@ export const register: AppRouteHandler<RegisterRoute> = async c => {
 
 export const login: AppRouteHandler<LoginRoute> = async c => {
   const body = c.req.valid("json") satisfies LoginInput
+
+  const ip =
+    c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
+    (() => {
+      try {
+        return getConnInfo(c).remote.address
+      } catch {
+        return undefined
+      }
+    })() ??
+    "unknown"
+
   const { accessToken, refreshToken, sessionId } = await authService.login(
     body,
-    {
-      ip: getConnInfo(c).remote.address ?? "unknown",
-      userAgent: c.req.header("User-Agent") ?? "unknown",
-    }
+    { ip, userAgent: c.req.header("User-Agent") ?? "unknown" }
   )
 
   setAuthCookies(c, sessionId, refreshToken, authService.REFRESH_TTL_SECONDS)
