@@ -1,4 +1,4 @@
-import "dotenv/config"
+import dotenv from "dotenv"
 import z from "zod"
 
 const NODE_ENVS = ["development", "production", "test"] as const
@@ -11,6 +11,13 @@ const LOG_LEVELS = [
   "fatal",
   "silent",
 ] as const
+
+const nodeEnv = process.env.NODE_ENV ?? "development"
+
+dotenv.config({
+  path: nodeEnv === "test" ? ".env.test" : ".env",
+  override: true,
+})
 
 const parsedEnv = z
   .object({
