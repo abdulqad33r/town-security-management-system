@@ -1,13 +1,10 @@
-import { and, count, eq } from "drizzle-orm"
-
 import { HttpStatus } from "@/constants/httpStatus"
-import db from "@/db"
 import type { ApprovalStatus } from "@/db/schema"
-import { accountsTable } from "@/db/schema"
 import { appAssert } from "@/lib/errors/httpErrors"
 import { deleteAllSessions } from "@/redis/session.store"
 import {
   findAccountById,
+  findAccounts,
   updateApprovalStatus,
 } from "@/repositories/account.repository"
 import type { NonPendingApprovalStatus } from "@/types/auth.types"
@@ -62,38 +59,14 @@ export async function getAccount(id: string) {
 
 // ? ───────────────── List Accounts ─────────────────
 export async function listAccounts({
-  approvalStatus,
-  role,
   page,
   limit,
+  ...filters
 }: ListAccountsQuery): Promise<ListAccountsResponse> {
-  const where = {
-    ...(approvalStatus ? { approvalStatus } : {}),
-    ...(role ? { role } : {}),
-  }
-
-  const conditions = [
-    approvalStatus
-      ? eq(accountsTable.approvalStatus, approvalStatus)
-      : undefined,
-    role ? eq(accountsTable.role, role) : undefined,
-  ]
-
-  const [accounts, total] = await Promise.all([
-    db.query.accountsTable.findMany({
-      where,
-      offset: (page - 1) * limit,
-      limit,
-      orderBy: { createdAt: "desc", id: "asc" },
-      columns: { passwordHash: false },
-    }),
-
-    db
-      .select({ total: count() })
-      .from(accountsTable)
-      .where(and(...conditions))
-      .then(rows => rows[0].total),
-  ])
+  const { accounts, total } = await findAccounts(filters, {
+    offset: (page - 1) * limit,
+    limit,
+  })
 
   return {
     accounts,
