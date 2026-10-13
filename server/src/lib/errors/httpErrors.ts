@@ -19,9 +19,10 @@ function cleanStack(stack: string) {
       return (
         !normalized.includes("node_modules") && normalized.includes("\\src\\")
       )
-    })
-    .map(line => line.trimStart())
-    .join(" ")
+    })[0]
+    .trimStart()
+  // .map(line => line.trimStart())
+  // .join(" ") old
 }
 
 export function getCleanStack(err: Error | HTTPException | ZodError | unknown) {
