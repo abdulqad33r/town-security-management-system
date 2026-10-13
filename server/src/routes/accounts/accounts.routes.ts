@@ -11,6 +11,7 @@ import {
 } from "@/lib/openapi/schemas/responseSchemas"
 import {
   getAccountSchema,
+  listAccountsSchema,
   nonPendingApprovalStatusSchema,
   updateApprovalStatusSchema,
 } from "@/validators/accounts.validators"
@@ -48,10 +49,23 @@ export const getAccount = route({
   responses: {
     [HttpStatus.OK]: jsonContentWithData(getAccountSchema, "Account found"),
 
-    // ...errorResponse(HttpStatus.BAD_REQUEST, "Invalid status transition"),
     ...notFoundErrorResponse("Account not found"),
+  },
+})
+
+export const listAccounts = route({
+  path: "/accounts",
+  method: "get",
+  tags,
+  request: { query: listAccountsSchema },
+  responses: {
+    [HttpStatus.OK]: jsonContentWithData(
+      getAccountSchema,
+      "Query to list accounts finished"
+    ),
   },
 })
 
 export type UpdateAccountStatusRoute = typeof updateAccountStatus
 export type GetAccountRoute = typeof getAccount
+export type ListAccounts = typeof listAccounts
