@@ -17,7 +17,9 @@ const readRouter = $(
   createRouter()
     .use(requireAuth)
     .use(requirePermission(PERMISSIONS.ACCOUNT_MANAGE_ANY))
-).openapi(r.getAccount, h.getAccount)
+)
+  .openapi(r.getAccount, h.getAccount)
+  .openapi(r.listAccounts, h.listAccounts)
 
 export default $(createRouter().basePath("/accounts"))
   .route("/", approvalRouter)
