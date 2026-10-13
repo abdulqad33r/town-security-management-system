@@ -141,6 +141,7 @@ export const revokeSession = route({
       "Cannot revoke another user's session"
     ),
     ...notFoundErrorResponse("Session not found"),
+    ...validationErrorResponse([idParamsSchema]),
   },
 })
 
