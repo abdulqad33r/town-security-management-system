@@ -5,6 +5,7 @@ import * as accountsService from "@/services/accounts.service"
 
 import type {
   GetAccountRoute,
+  ListAccounts,
   UpdateAccountStatusRoute,
 } from "./accounts.routes"
 
@@ -21,6 +22,12 @@ export const updateAccountStatus: AppRouteHandler<
 
 export const getAccount: AppRouteHandler<GetAccountRoute> = async c => {
   const result = await accountsService.getAccount(c.req.valid("param").id)
+
+  return c.json(success(result), HttpStatus.OK)
+}
+
+export const listAccounts: AppRouteHandler<ListAccounts> = async c => {
+  const result = await accountsService.listAccounts(c.req.valid("query"))
 
   return c.json(success(result), HttpStatus.OK)
 }
