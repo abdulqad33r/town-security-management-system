@@ -1,9 +1,14 @@
 import { Scalar } from "@scalar/hono-api-reference"
 
+import { isDevEnv } from "@/config/env"
+
 import { version } from "../../package.json"
+import { scalarCustomFetch } from "./scalarCustomFetch"
 import type { AppOpenApi } from "./types"
 
 const configureOpenAPI = (app: AppOpenApi) => {
+  if (!isDevEnv) return
+
   app.doc("/doc", {
     info: {
       title: "Town Security Management System API",
@@ -21,6 +26,7 @@ const configureOpenAPI = (app: AppOpenApi) => {
         targetKey: "js",
       },
       theme: "kepler",
+      customFetch: scalarCustomFetch as typeof fetch,
     })
   )
 }
