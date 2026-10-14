@@ -25,6 +25,8 @@ const accountsById = new Map<string, Account>()
 
 let deleteAccountBeforeUpdate = false
 
+const findAccounts = mock()
+
 mock.module("@/repositories/account.repository", () => ({
   findAccountByEmail: async () => {},
   findAccountById: async (id: string) => accountsById.get(id) ?? null,
@@ -43,15 +45,19 @@ mock.module("@/repositories/account.repository", () => ({
     return account as UpdatedAccount | undefined
   },
   createAccount: async () => {},
+  findAccounts,
 }))
 
 function resetFakes() {
   accountsById.clear()
   deleteAccountBeforeUpdate = false
   deleteAllSessions.mockClear()
+  findAccounts.mockReset()
 }
 
-const { getAccount, updateAccountStatus } = await import("./accounts.service")
+const { getAccount, updateAccountStatus, listAccounts } = await import(
+  "./accounts.service"
+)
 
 /** Registers an account under both lookup maps and returns it. */
 function makeAccount(overrides: Partial<Account> = {}) {
@@ -183,5 +189,69 @@ describe("accounts.service getAccount()", () => {
     await expect(getAccount(crypto.randomUUID())).rejects.toMatchObject({
       status: HttpStatus.NOT_FOUND,
     })
+  })
+})
+
+// ─────────────────────────────────────────────
+// listAccounts()
+// ─────────────────────────────────────────────
+describe("accounts.service listAccounts()", () => {
+  beforeEach(resetFakes)
+
+  it("converts page and limit into an offset", async () => {
+    findAccounts.mockResolvedValue({ accounts: [], total: 0 })
+
+    const page = 3
+    const limit = 10
+    await listAccounts({ page, limit })
+
+    expect(findAccounts).toHaveBeenCalledWith(
+      {},
+      { offset: (page - 1) * limit, limit }
+    )
+  })
+
+  it("forwards the filters but not page or limit", async () => {
+    findAccounts.mockResolvedValue({ accounts: [], total: 0 })
+
+    const page = 1,
+      limit = 20,
+      approvalStatus = "pending",
+      role = "guard"
+
+    await listAccounts({ approvalStatus, role, page, limit })
+
+    expect(findAccounts).toHaveBeenCalledWith(
+      { approvalStatus, role },
+      { offset: (page - 1) * limit, limit }
+    )
+  })
+
+  it.each([
+    [0, 10, 0],
+    [1, 10, 1],
+    [10, 10, 1],
+    [11, 10, 2],
+    [25, 10, 3],
+  ])("total %i with limit %i gives %i pages", async (total, limit, pages) => {
+    findAccounts.mockResolvedValue({ accounts: [], total })
+
+    const result = await listAccounts({ page: 1, limit })
+
+    expect(result.pagination).toEqual({
+      page: 1,
+      limit,
+      total,
+      totalPages: pages,
+    })
+  })
+
+  it("returns the accounts from the repository unchanged", async () => {
+    const accounts = [makeAccount(), makeAccount()]
+    findAccounts.mockResolvedValue({ accounts, total: accounts.length })
+
+    const result = await listAccounts({ page: 1, limit: 20 })
+
+    expect(result.accounts as unknown as typeof accounts).toEqual(accounts)
   })
 })
