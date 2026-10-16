@@ -3,8 +3,8 @@ import {
   boolean,
   check,
   date,
-  index,
   snakeCase,
+  uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core"
 import { createInsertSchema, createSelectSchema } from "drizzle-orm/zod"
@@ -119,7 +119,10 @@ export const houseMembersTable = snakeCase.table(
 
   table => [
     // ? ───────────────── Indexes ─────────────────
-    index("house_members_house_id_idx").on(table.houseId),
+    // stops a house from having zero or several primary residents
+    uniqueIndex("house_members_one_primary_per_house_idx")
+      .on(table.houseId)
+      .where(sql`${table.isPrimaryResident}`),
 
     // ? ───────────────── Checks ─────────────────
     check("date_of_birth_check", sql`${table.dateOfBirth} < CURRENT_DATE`),

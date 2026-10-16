@@ -5,6 +5,7 @@ import {
   index,
   integer,
   snakeCase,
+  uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core"
 
@@ -33,6 +34,12 @@ export const housesTable = snakeCase.table(
     // ? ───────────────── Indexes ─────────────────
     index("houses_zone_id_idx").on(table.zoneId),
     index("houses_street_id_idx").on(table.streetId),
+
+    // two houses can't share a number on one street
+    uniqueIndex("houses_street_house_number_uniq").on(
+      table.streetId,
+      table.houseNumber
+    ),
 
     // ? ───────────────── Checks ─────────────────
     check("house_number_positive", sql`${table.houseNumber} > 0`),
