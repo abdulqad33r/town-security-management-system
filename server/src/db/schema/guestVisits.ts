@@ -44,7 +44,7 @@ export const guestVisitsTable = snakeCase.table(
 
     arrivalMode: arrivalModeEnum().notNull(),
 
-    arrivedAt: timestamp().notNull(),
+    arrivedAt: timestamp({ withTimezone: true }).notNull(),
 
     status: visitStatus(),
 
