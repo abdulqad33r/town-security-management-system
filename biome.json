@@ -84,7 +84,7 @@
   },
   "overrides": [
     {
-      "includes": ["server/**/env.ts"],
+      "includes": ["server/**/env.ts", "server/src/scripts/seed-manager.ts"],
       "linter": {
         "rules": {
           "style": {
