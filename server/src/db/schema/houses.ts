@@ -25,7 +25,7 @@ export const housesTable = snakeCase.table(
     houseNumber: integer().notNull(),
     houseName: varchar({ length: 255 }).notNull(),
 
-    isActive: boolean().notNull(),
+    isActive: boolean().notNull().default(true),
 
     ...timestamps(),
   },

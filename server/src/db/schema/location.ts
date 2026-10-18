@@ -16,7 +16,7 @@ const _commonFields = {
   postcode: varchar({ length: 20 }).notNull(),
   wkt: text().notNull(),
 
-  isActive: boolean().notNull(),
+  isActive: boolean().notNull().default(true),
 
   ...timestamps(),
 }
