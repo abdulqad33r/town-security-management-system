@@ -1,10 +1,7 @@
 import type z from "zod"
 
-import type {
-  accountsTable,
-  createAccountSchema,
-  nonPendingApprovalStatusSchema,
-} from "@/db/schema"
+import type { accountsTable, createAccountSchema } from "@/db/schema"
+import type { nonPendingApprovalStatusSchema } from "@/validators/accounts.validators"
 
 import type { Prettify } from "."
 
