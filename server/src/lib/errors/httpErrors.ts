@@ -3,38 +3,22 @@ import { ZodError } from "zod"
 
 import type { HttpErrorStatusCode } from "@/constants/httpStatus"
 
-function cleanStack(stack: string) {
-  return stack
+const cleanStack = (stack: string) =>
+  stack
     .split("\n")
-    .filter(line => {
+    .find(line => {
       const normalized = line.toLowerCase()
 
-      // (!normalized.includes("hono/dist") &&
-      // !normalized.includes("hono/") &&
-      // !normalized.includes("internal/") &&
-      // !normalized.includes("node:internal"))
-
-      // || normalized.startsWith("error: ")
-
-      return (
-        !normalized.includes("node_modules") && normalized.includes("\\src\\")
-      )
-    })[0]
-    .trimStart()
-  // .map(line => line.trimStart())
-  // .join(" ") old
-}
+      return !normalized.includes("node_modules") && /[\\/]src[\\/]/.test(line)
+    })
+    ?.trimStart()
 
 export function getCleanStack(err: Error | HTTPException | ZodError | unknown) {
-  // if (err instanceof ZodError)
-  //   // INFO: Below I'm doing `slice(-1).join("\n")` to get the last line of the stack trace which looks like this "at createTaskHandler (D:\MERN Stack\testing\hono-node\src\routes\tasks\tasks.handlers.ts:17:34)" and is the most relevant for debugging
-  //   return `Zod Validation Error ${cleanStack(err.stack)?.slice(-1).join("\n")}`
-  // else if (err instanceof HTTPException || err instanceof Error)
-  //   return cleanStack(err.stack)?.join(" ")
-
   if (!Error.isError(err) || !err.stack) return undefined
 
-  const stack = cleanStack(err.stack) ?? ""
+  const stack = cleanStack(err.stack)
+
+  if (!stack) return undefined
 
   const prefix = err instanceof ZodError ? "Zod Validation Error" : "Error"
 
