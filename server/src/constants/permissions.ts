@@ -11,6 +11,8 @@ export const PERMISSIONS = {
 
   GUARD_MANAGE: "guard:manage",
   RESIDENT_MANAGE: "resident:manage",
+
+  LOCATION_MANAGE: "location:manage",
 } as const
 
 export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS]
@@ -40,5 +42,6 @@ export const ROLE_PERMISSIONS: Record<
     PERMISSIONS.PARCEL_COLLECT,
     PERMISSIONS.GUARD_MANAGE,
     PERMISSIONS.RESIDENT_MANAGE,
+    PERMISSIONS.LOCATION_MANAGE,
   ],
 }
